@@ -1,4 +1,15 @@
+<<<<<<< HEAD
 ".env" 
 ".idea/" 
 "commads.txt" 
 .env
+=======
+.env
+.idea/
+commads.txt
+.venv/
+__pycache__/
+*.pyc
+node_modules/
+dist/
+>>>>>>> 47d6736fec1cbe1737dc6d1ab6e9958af9908b19
