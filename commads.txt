@@ -1,0 +1,6 @@
+git add .
+git commit -m "fixed question generation"
+git push
+
+backend command -
+frontend command - 
