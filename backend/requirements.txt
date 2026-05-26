@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+python-dotenv
+pymongo
+pymupdf
+groq
+sarvamai
+deepgram-sdk
+langchain
+faiss-cpu
+pydantic
