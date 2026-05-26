@@ -32,7 +32,6 @@ async def start(req: StartRequest):
         role=req.role
     )
 
-    session = result["session"]
     session_id = create_session(
         role=req.role,
         seniority=req.seniority,
@@ -40,7 +39,11 @@ async def start(req: StartRequest):
         questions=req.questions
     )
 
-    audio = speak(result["intro"] + " " + result["question"])
+    try:
+        audio_bytes = speak(result["intro"] + " " + result["question"])
+        audio_hex = audio_bytes.hex()
+    except Exception:
+        audio_hex = None
 
     return {
         "session_id": session_id,
@@ -48,7 +51,7 @@ async def start(req: StartRequest):
         "question": result["question"],
         "question_number": 1,
         "total_questions": len(req.questions),
-        "audio": audio.hex()
+        "audio": audio_hex
     }
 
 
@@ -74,14 +77,17 @@ async def next_turn(req: AnswerRequest):
             "message": result["message"]
         }
 
-    audio = speak(result["question"])
+    try:
+        audio_hex = speak(result["question"]).hex()
+    except Exception:
+        audio_hex = None
 
     return {
         "status": result["status"],
         "question": result["question"],
         "question_number": result["question_number"],
         "total_questions": len(session["questions"]),
-        "audio": audio.hex()
+        "audio": audio_hex
     }
 
 

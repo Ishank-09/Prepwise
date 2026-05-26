@@ -1,8 +1,12 @@
 import os
 import base64
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from groq import Groq
 from sarvamai import SarvamAI
-from deepgram import DeepgramClient, PrerecordedOptions
+from deepgram import DeepgramClient
 
 groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 sarvam_client = SarvamAI(api_subscription_key=os.getenv("SARVAM_API_KEY"))
@@ -31,13 +35,15 @@ def speak(text: str) -> bytes:
     audio_bytes = base64.b64decode(response.audios[0])
     return audio_bytes
 
-
 def transcribe(audio_bytes: bytes) -> str:
     payload = {"buffer": audio_bytes}
-    options = PrerecordedOptions(
-        model="nova-3",
-        language="en-IN",
-        smart_format=True
+    options = {
+        "model": "nova-2",
+        "language": "en-IN",
+        "smart_format": True
+    }
+    response = deepgram_client.listen.prerecorded.v("1").transcribe_file(
+        payload,
+        options
     )
-    response = deepgram_client.listen.prerecorded.v("1").transcribe_file(payload, options)
     return response.results.channels[0].alternatives[0].transcript

@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from api.jd import router as jd_router
 from api.interview import router as interview_router
 from api.report import router as report_router
+from api.auth import router as auth_router
 
 load_dotenv()
 
@@ -18,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+app.include_router(auth_router, prefix="/auth")
 app.include_router(jd_router, prefix="/jd")
 app.include_router(interview_router, prefix="/interview")
 app.include_router(report_router, prefix="/report")
